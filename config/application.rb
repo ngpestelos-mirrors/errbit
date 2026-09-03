@@ -17,6 +17,7 @@ require "action_view/railtie"
 # require "rails/test_unit/railtie"
 
 require_relative "../lib/errbit/self_error_reporter"
+require_relative "../lib/errbit/locale_middleware"
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -83,6 +84,8 @@ module Errbit
 
     # Configure Devise mailer to use our mailer layout.
     config.to_prepare { Devise::Mailer.layout "mailer" }
+
+    config.middleware.insert_before Warden::Manager, Errbit::LocaleMiddleware
 
     config.active_job.queue_adapter = :async
 
